@@ -183,7 +183,7 @@ class Ui_MainWindow(object):
                 errorMsg.exec_()
                 error_message = traceback.format_exc()
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText(
                     "Something's gone wrong! Post the following error in the troubleshooting channel: " + error_message)
                 errorMsg.exec_()
@@ -239,23 +239,23 @@ class Ui_MainWindow(object):
             return
         except TimeoutError or httpx.RequestError or ConnectionResetError or httpx.ReadTimeout:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("The server you've connected to is down! Try again later.")
             errorMsg.exec_()
         except TimeoutError or httpx.RequestError or ConnectionResetError:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("The server you've connected to is down! Try again later.")
             errorMsg.exec_()
         except Exception as e:
             error_message = traceback.format_exc()
             if 'timeout' or 'reset' in error_message:
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText("The server you've connected to is down! Try again later.")
                 errorMsg.exec_()
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText(
                 "Something's gone wrong! Post the following error in the troubleshooting channel: " + error_message)
             errorMsg.exec_()
@@ -350,23 +350,23 @@ class Ui_MainWindow(object):
             return
         except TimeoutError or httpx.RequestError or ConnectionResetError or httpx.ReadTimeout:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("The server you've connected to is down! Try again later.")
             errorMsg.exec_()
         except TimeoutError or httpx.RequestError or ConnectionResetError:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("The server you've connected to is down! Try again later.")
             errorMsg.exec_()
         except Exception as e:
             error_message = traceback.format_exc()
             if 'timeout' or 'reset' in error_message:
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText("The server you've connected to is down! Try again later.")
                 errorMsg.exec_()
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText(
                 "Something's gone wrong! Post the following error in the troubleshooting channel: " + error_message)
             errorMsg.exec_()
@@ -383,7 +383,7 @@ class Ui_MainWindow(object):
         installed = os.path.isfile((game_path/Path('.revision')))
         if not installed:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("You dont seem to have Open Fortress installed! Click the 'Update' button to install.")
             errorMsg.exec_()
             self.pushButton_4.setText('Launch')
@@ -410,7 +410,7 @@ class Ui_MainWindow(object):
                     	
             if sdkExists == False and tf2Exists == False:
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText("You dont seem to have the Source Sdk 2013 Base Multiplayer or Team Fortress 2 installed!" + 
                 "They are a requirement to play Open Fortress.")
                 errorMsg.exec_()
@@ -419,7 +419,7 @@ class Ui_MainWindow(object):
                 
             if sdkExists == False:
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText("You dont seem to have the Source Sdk 2013 Base Multiplayer installed! It is a requirement to play Open Fortress.")
                 errorMsg.exec_()
                 self.label_status.setText('Waiting to Download')
@@ -427,7 +427,7 @@ class Ui_MainWindow(object):
                 
             if tf2Exists == False:
                 errorMsg = QMessageBox()
-                errorMsg.setWindowTitle("rei?")
+                errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
                 errorMsg.setText("You dont seem to have Team Fortress 2 installed! It is a requirement to play Open Fortress.")
                 errorMsg.exec_()
                 self.label_status.setText('Waiting to Download')
@@ -436,7 +436,7 @@ class Ui_MainWindow(object):
 
         else:
             errorMsg = QMessageBox()
-            errorMsg.setWindowTitle("rei?")
+            errorMsg.setWindowTitle("jar's broke, jams gone everywhere")
             errorMsg.setText("You dont seem to have Open Fortress installed! Click the 'Install' button to install.")
             errorMsg.exec_()
             self.label_status.setText('Waiting to Download')

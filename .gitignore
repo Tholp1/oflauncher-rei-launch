@@ -4,3 +4,6 @@ ofrei/__pycache__
 ofrei/dist/gui.exe
 ofrei/gui.py.bak
 ofrei/gui.spec
+ofjam/gui.spec
+ofjam/gui.py.bak
+ofjam/dist/gui.exe
