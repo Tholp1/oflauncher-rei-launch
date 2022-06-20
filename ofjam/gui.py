@@ -10,7 +10,7 @@ import hashlib
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject, pyqtSignal, QEvent
-from PyQt5.QtWidgets import QApplication, QMessageBox, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMessageBox, QFileDialog, QCheckBox
 from PyQt5.QtGui import QPalette, QColor, QFont
 import sys
 
@@ -83,7 +83,11 @@ class Ui_MainWindow(object):
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(100, 300, 121, 31))
         self.label_4.setObjectName("label_4")
-        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.lineEdit_3 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_3.setGeometry(QtCore.QRect(400, 390, 221, 28))
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(400, 360, 121, 31))
+        self.label_5.setObjectName("label_5")
         self.label_status = QtWidgets.QLabel(self.centralwidget)
         self.label_status.setGeometry(QtCore.QRect(100, 180, 521, 40))
         self.label_status.setObjectName("label_status")
@@ -97,7 +101,7 @@ class Ui_MainWindow(object):
         self.progressBar.setFormat("")
         self.progressBar.setObjectName("progressBar")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(100, 430, 90, 28))
+        self.pushButton.setGeometry(QtCore.QRect(70, 430, 90, 28))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.clicked.connect(self.clickUpdate)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
@@ -107,18 +111,23 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(110, 133, 211, 20))
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(200, 430, 90, 28))
+        self.pushButton_3.setGeometry(QtCore.QRect(170, 430, 90, 28))
 
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.clicked.connect(self.clickVerify)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(300, 430, 90, 28))
+        self.pushButton_4.setGeometry(QtCore.QRect(270, 430, 90, 28))
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_4.clicked.connect(self.clickLaunch)
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(100, 250, 211, 20))
         #self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
+        self.check = QtWidgets.QCheckBox(self.centralwidget)
+        self.check.setGeometry(QtCore.QRect(560, 430, 25, 25))
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(370, 430, 180, 25))
+        self.label_6.setObjectName("label_6")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -130,13 +139,20 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "GAMEDIR"))
         self.label_2.setText(_translate("MainWindow", "Download URL:"))
         self.label_4.setText(_translate("MainWindow", "Install Folder:"))
+        self.label_5.setText(_translate("MainWindow", "Launch Arguments:"))
         self.label_status.setText(_translate("MainWindow", "Waiting to Download"))
-        self.lineEdit_2.setText(_translate("MainWindow", "https://toast.openfortress.fun/toast"))            
+        self.lineEdit_2.setText(_translate("MainWindow", "https://toast.openfortress.fun/toast"))   
+        self.lineEdit_3.setText(_translate("MainWindow", "-steam -secure"))          
         self.pushButton.setText(_translate("MainWindow", "Install"))
         self.pushButton_2.setText(_translate("MainWindow", "Cancel"))
         self.pushButton_3.setText(_translate("MainWindow", "Verify"))
         self.label_3.setText(_translate("MainWindow", "Installed Revision: None"))
+        self.label_6.setText(_translate("MainWindow", "Use Launch Arguements set in Steam:"))
         self.pushButton_4.setText(_translate("MainWindow", "Launch"))
+
+
+
+
 
     def clickBrowse(self):
         temp = self.lineEdit.text()
@@ -442,15 +458,26 @@ class Ui_MainWindow(object):
             self.label_status.setText('Waiting to Download')
             return
         
+        useSteamLink = self.check.isChecked()
+        args = self.lineEdit_3.text()
+
         if platform.startswith('win32'):
-            #hl2 = "{sdk}\hl2.exe".format(sdk = sdkPath)
-            #run([hl2, "-game", ofpath], shell=True)
-            run(["start", "steam://rungameid/11677091221058336806"], shell=True)
+            if useSteamLink:
+                run(["start", "steam://rungameid/11677091221058336806"], shell=True) 
+            else:
+                hl2 = "{sdk}\hl2.exe".format(sdk = sdkPath)
+                run([hl2, "-game", game_path, args], shell=True)
         else:
-            #hl2 = "{sdk}\hl2_linux".format(sdk = sdkPath)
-            #run([hl2, "-game", ofpath])
-            run(["xdg-open","steam://rungameid/11677091221058336806"])
-        time.sleep(5)
+            if useSteamLink:
+                run(["xdg-open","steam://rungameid/11677091221058336806"])#steam args
+            else:
+                hl2 = "{sdk}\hl2_linux".format(sdk = sdkPath)#our args
+                run([hl2, "-game", game_path, args])
+        #save arguments for next time    
+        argfile = open(game_path / Path('.args'), "w")
+        argfile.write(args)
+        
+        
         self.label_status.setText('Waiting to Download')
 
 
@@ -582,6 +609,16 @@ def existing_game_check(ui, MainWindow):
             
         ui.lineEdit.setText(str(ofpath))
 
+def getSavedArgs(ui, MainWindow):
+    game_path = Path(ui.lineEdit.text())
+    try: 
+        file = open(game_path / Path('.args'), "r")
+        _translate = QtCore.QCoreApplication.translate
+        ui.lineEdit_3.setText(_translate("MainWindow", file.read()))
+        file.close()
+        return
+    except (FileNotFoundError):
+        return
 
 def set_theme(app, MainWindow):
     QApplication.setStyle("fusion")
@@ -609,6 +646,8 @@ if __name__ == "__main__":
     set_theme(app, MainWindow)
     ui.setupUi(app, MainWindow)
     existing_game_check(ui, MainWindow)
+    getSavedArgs(ui, MainWindow)
+
     MainWindow.show()
 
     sys.exit(app.exec_())
